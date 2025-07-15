@@ -3,18 +3,14 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-/* 1. Create route defination
-2. Create a view file
-*/
-Route::get('/about', function () {
+    return view('home');
+})->name('home');
+Route::get('/about-us-opurseldasdasda', function () {
     return view('about');
-});
+})->name('about');
 Route::get('/contact-us', function () {
     return view('contact');
-});
+})->name('contact');
 Route::get('/services', function () {
     return view('service');
-});
+})->name('service');
