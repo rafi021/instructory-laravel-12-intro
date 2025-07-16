@@ -17,8 +17,7 @@ Route::get('/contact-us', function () {
     return view('contact');
 })->name('contact');
 
-Route::get('/services/{service_id}/{service_name?}', function ($service_id, ?string $service_name = null) {
-    dd($service_id, $service_name);
+Route::get('/services', function () {
     return view('service');
 })->name('service');
 
