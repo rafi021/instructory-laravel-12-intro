@@ -5,10 +5,31 @@ use Illuminate\Support\Facades\Route;
 use App\CategroyEnum;
 
 Route::get('/', function () {
-    return view('home');
+
+    $data = [
+        'name' => 'VendyBazzar',
+        'address' => 'Dhaka',
+        'phone' => '123123123'
+    ];
+    return view('home', compact('data'));
 })->name('home');
 
-Route::view('/', 'home')->name('home');
+
+
+// Route::view('/', 'home')->name('home');
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Route::get('/about-us-opurseldasdasda', function () {
     return view('about');
