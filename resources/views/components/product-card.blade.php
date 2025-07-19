@@ -1,4 +1,4 @@
-<div class="group relative">
+<div {{ $attributes }}>
     <img src="{{ $product['images'][0] }}" alt="Front of men&#039;s Basic Tee in black."
         class="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80" />
     <div class="mt-4 flex justify-between">
