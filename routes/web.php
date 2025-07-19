@@ -15,23 +15,7 @@ Route::get('/', function () {
 })->name('home');
 
 
-
-// Route::view('/', 'home')->name('home');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Route::get('/about-us-opurseldasdasda', function () {
+Route::get('/about-us', function () {
     return view('about');
 })->name('about');
 Route::get('/contact-us', function () {
@@ -39,8 +23,27 @@ Route::get('/contact-us', function () {
 })->name('contact');
 
 Route::get('/services', function () {
-    return view('service');
+
+    $services = [
+        'web development',
+        'mobile development',
+        'digital marketing',
+        'ui-ux design'
+    ];
+
+    $isServices = false;
+
+
+    
+
+
+    return view('service', compact('services', 'isServices'));
 })->name('service');
+
+
+
+
+
 
 
 Route::get('/user/{id}/{name}', function (string $id, string $name) {
