@@ -3,88 +3,53 @@
 use Illuminate\Support\Facades\Route;
 
 use App\CategroyEnum;
+use Illuminate\Http\Request;
 
-Route::get('/', function () {
+Route::get('/', function (Request $request) {
+    // dd(
+    //     $request,
+    //     $request->path(),
+    //     $request->is('/'),
+    //     $request->fullUrl(),
+    //     $request->host(),
+    //     $request->ip(),
+    //     $request->httpHost(),
+    //     $request->schemeAndHttpHost(),
+
+
+    //     $request->header('User-Agent'),
+    //     $request->routeIs('home'),
+    //     $request->header('X-Header_name', 'default_value'),
+    //     $request->bearerToken(), //----> API building
+    // );
 
     $data = [
-        'name' => 'VendyBazzar',
-        'address' => 'Dhaka',
-        'phone' => '123123123'
+        "Name" => "Mahmud Ibrahim",
+        "Age" => 37,
     ];
 
-    /*Create a associative array of products */
-    $products = [
-        [
-            "id" => 91,
-            "title" => "Efficient 2-Slice Toaster",
-            "slug" => "efficient-2-slice-toaster",
-            "price" => 48,
-            "description" => "Enhance your morning routine with our sleek 2-slice toaster, featuring adjustable browning controls and a removable crumb tray for easy cleaning. This compact and stylish appliance is perfect for any kitchen, ensuring your toast is always golden brown and delicious.",
-            "category" => [
-                "id" => 18,
-                "name" => "Electronics",
-                "slug" => "electronics",
-                "image" => "https://i.imgur.com/ZANVnHE.jpeg",
-                "creationAt" => "2025-07-19T09:03:44.000Z",
-                "updatedAt" => "2025-07-19T09:03:44.000Z"
-            ],
-            "images" => [
-                "https://i.imgur.com/keVCVIa.jpeg",
-                "https://i.imgur.com/afHY7v2.jpeg",
-                "https://i.imgur.com/yAOihUe.jpeg"
-            ],
-            "creationAt" => "2025-07-19T09:03:49.000Z",
-            "updatedAt" => "2025-07-19T09:03:49.000Z"
-        ],
-        [
-            "id" => 92,
-            "title" => "Sleek Comfort-Fit Over-Ear Headphones",
-            "slug" => "sleek-comfort-fit-over-ear-headphones",
-            "price" => 28,
-            "description" => "Experience superior sound quality with our Sleek Comfort-Fit Over-Ear Headphones, designed for prolonged use with cushioned ear cups and an adjustable, padded headband. Ideal for immersive listening, whether you're at home, in the office, or on the move. Their durable construction and timeless design provide both aesthetically pleasing looks and long-lasting performance.",
-            "category" => [
-                "id" => 18,
-                "name" => "Electronics",
-                "slug" => "electronics",
-                "image" => "https://i.imgur.com/ZANVnHE.jpeg",
-                "creationAt" => "2025-07-19T09:03:44.000Z",
-                "updatedAt" => "2025-07-19T09:03:44.000Z"
-            ],
-            "images" => [
-                "https://i.imgur.com/SolkFEB.jpeg",
-                "https://i.imgur.com/KIGW49u.jpeg",
-                "https://i.imgur.com/mWwek7p.jpeg"
-            ],
-            "creationAt" => "2025-07-19T09:03:49.000Z",
-            "updatedAt" => "2025-07-19T09:03:49.000Z"
-        ],
-        [
-            "id" => 93,
-            "title" => "Sleek Wireless Computer Mouse",
-            "slug" => "sleek-wireless-computer-mouse",
-            "price" => 100,
-            "description" => "Experience smooth and precise navigation with this modern wireless mouse, featuring a glossy finish and a comfortable ergonomic design. Its responsive tracking and easy-to-use interface make it the perfect accessory for any desktop or laptop setup. The stylish blue hue adds a splash of color to your workspace, while its compact size ensures it fits neatly in your bag for on-the-go productivity.",
-            "category" => [
-                "id" => 18,
-                "name" => "Electronics",
-                "slug" => "electronics",
-                "image" => "https://i.imgur.com/ZANVnHE.jpeg",
-                "creationAt" => "2025-07-19T09:03:44.000Z",
-                "updatedAt" => "2025-07-19T09:03:44.000Z"
-            ],
-            "images" => [
-                "https://i.imgur.com/w3Y8NwQ.jpeg"
-            ],
-            "creationAt" => "2025-07-19T09:03:49.000Z",
-            "updatedAt" => "2025-07-19T09:16:06.000Z"
-        ]
-    ];
-
+    // return $data;
+    return response($data)
+        ->header('Content-Type', 'application/json')
+        ->header('shop_id', 812312)
+        ->header('shop_name', 'Mahmud Ibrahim')
+        ->cookie('MyIDCard', '123343453465465', 3600);
 
 
 
     return view('home', compact('data', 'products'));
 })->name('home');
+
+
+
+
+
+
+
+
+
+
+
 
 
 Route::get('/about-us', function () {
@@ -94,7 +59,8 @@ Route::get('/contact-us', function () {
     return view('contact');
 })->name('contact');
 
-Route::get('/services', function () {
+Route::get('/services', function (Request $request) {
+
 
     $services = [
         'web development',
