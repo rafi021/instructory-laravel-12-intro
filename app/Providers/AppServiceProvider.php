@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Billing\Calculator;
+use App\Billing\PaymentGateway;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +13,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(PaymentGateway::class, function ($app) {
+            return new PaymentGateway('usd');
+        });
+
+        $this->app->bind('Math', Calculator::class);;
     }
 
     /**
