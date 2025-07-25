@@ -5,7 +5,8 @@
             <h1 class="text-2xl font-bold pt-12">Task List</h1>
 
             <div class="flex justify-end mb-4">
-                <a href="" class="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 text-white rounded">Task Create</a>
+                <a href="{{ route('tasks.create') }}"
+                    class="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 text-white rounded">Task Create</a>
             </div>
 
             <div class="p-1.5 min-w-full inline-block align-middle border rounded-lg">
@@ -26,19 +27,23 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
+                            @forelse ($tasks as $task)
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                        {{ $lopp->index + 1 }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ $task->name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ $task->date }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ $task->status }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                                        <button type="button"
+                                            class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-hidden focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">Edit</button>
+                                        <button type="button"
+                                            class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-red-600 hover:text-red-800 focus:outline-hidden focus:text-red-800 disabled:opacity-50 disabled:pointer-events-none">Delete</button>
+                                    </td>
+                                </tr>
 
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">1</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">Task Name</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">2025-12-12</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">Pending</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                    <button type="button"
-                                        class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-hidden focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">Edit</button>
-                                    <button type="button"
-                                        class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-red-600 hover:text-red-800 focus:outline-hidden focus:text-red-800 disabled:opacity-50 disabled:pointer-events-none">Delete</button>
-                                </td>
-                            </tr>
+                            @empty
+                            @endforelse
 
                         </tbody>
                     </table>
