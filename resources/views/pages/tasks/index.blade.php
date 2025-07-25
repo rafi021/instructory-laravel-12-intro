@@ -30,7 +30,7 @@
                             @forelse ($tasks as $task)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                        {{ $lopp->index + 1 }}</td>
+                                        {{ $loop->index + 1 }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ $task->name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ $task->date }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ $task->status }}</td>
