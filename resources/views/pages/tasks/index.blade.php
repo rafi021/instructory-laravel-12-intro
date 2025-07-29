@@ -31,9 +31,29 @@
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                         {{ $loop->index + 1 }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ $task->name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                        @if ($task->status == 1)
+                                            <span class="line-through">{{ $task->name }}</span>
+                                        @else
+                                            {{ $task->name }}
+                                        @endif
+
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ $task->date }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ $task->status }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                        <div class="flex">
+
+                                            <form action="{{ route('tasks.status', $task->id) }}" method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="status" value="0">
+                                                <input name="status" type="checkbox" value="1"
+                                                    class="shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                                                    id="hs-checked-checkbox" @checked($task->status)
+                                                    onchange="this.form.submit()">
+                                            </form>
+                                        </div>
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                                         <a href="{{ route('tasks.edit', $task->id) }}"
                                             class="px-4 py-2 bg-blue-400 text-white inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent  hover:text-blue-800 focus:outline-hidden focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none">

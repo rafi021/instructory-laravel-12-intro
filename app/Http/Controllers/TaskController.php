@@ -6,6 +6,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class TaskController extends Controller
@@ -72,6 +73,15 @@ class TaskController extends Controller
         ]);
 
         Alert::success('Success', 'Task Updated Successfully!!');
+        return redirect()->route('tasks.index');
+    }
+    public function statusUpdate(UpdateTaskRequest $request, string $id)
+    {
+        $task = Task::find($id);
+        $task->update([
+            'status' => $request->validated('status'),
+        ]);
+        Alert::success('Success', 'Task Status Updated Successfully!!');
         return redirect()->route('tasks.index');
     }
 
