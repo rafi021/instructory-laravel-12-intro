@@ -54,15 +54,25 @@ class TaskController extends Controller
      */
     public function edit(string $id)
     {
-        return view('pages.tasks.edit');
+        $task = Task::find($id);
+        return view('pages.tasks.edit', [
+            'task' => $task
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreTaskRequest $request, string $id)
     {
-        //
+        $task = Task::find($id);
+        $task->update([
+            'name' => $request->validated('name'),
+            'date' => $request->validated('date'),
+        ]);
+
+        Alert::success('Success', 'Task Updated Successfully!!');
+        return redirect()->route('tasks.index');
     }
 
     /**
@@ -70,6 +80,14 @@ class TaskController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $task = Task::find($id);
+        if ($task) {
+            $task->delete();
+            Alert::success('Success', 'Task Deleted Successfully!!');
+            return redirect()->route('tasks.index');
+        } else {
+            Alert::error('Error', 'Task Not Found!!');
+            return redirect()->route('tasks.index');
+        }
     }
 }
