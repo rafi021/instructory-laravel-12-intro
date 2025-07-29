@@ -6,6 +6,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTaskRequest;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class TaskController extends Controller
 {
@@ -36,6 +37,7 @@ class TaskController extends Controller
             'name' => $request->validated('name'),
             'date' => $request->validated('date'),
         ]);
+        Alert::success('Success', 'Task Store Successfully!!');
         return redirect()->route('tasks.index');
     }
 

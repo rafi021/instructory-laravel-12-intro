@@ -14,6 +14,7 @@
 </head>
 
 <body class="">
+    @include('sweetalert::alert')
     @include('partial.nav')
     @yield('main-content')
 </body>
