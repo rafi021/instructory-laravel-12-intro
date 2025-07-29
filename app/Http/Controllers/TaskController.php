@@ -16,7 +16,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::latest()->get();
+        $tasks = Task::orderBy('date', 'desc')->get();
         return view('pages.tasks.index', compact('tasks'));
     }
 
