@@ -6,6 +6,7 @@ use App\Billing\PaymentGateway;
 use App\Facades\Math;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -17,6 +18,10 @@ class FrontendController extends Controller
             ->withCount('posts')
             ->get();
 
+        $teacher = Teacher::first();
+        $teacher->parent;
+
+        
         // return $categories;
         return view('home', compact('categories'));
     }
