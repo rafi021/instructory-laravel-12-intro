@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Billing\PaymentGateway;
 use App\Facades\Math;
+use App\Models\Category;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -11,8 +13,12 @@ class FrontendController extends Controller
 
     public function home()
     {
-        $products = [];
-        return view('home', compact('products'));
+        $categories = Category::with(['posts:id,category_id,title'])
+            ->withCount('posts')
+            ->get();
+
+        // return $categories;
+        return view('home', compact('categories'));
     }
     public function about(Request $request)
     {
