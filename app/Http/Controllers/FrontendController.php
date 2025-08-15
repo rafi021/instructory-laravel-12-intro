@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Billing\PaymentGateway;
 use App\Facades\Math;
 use App\Models\Category;
+use App\Models\Course;
 use App\Models\Post;
+use App\Models\Student;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 
@@ -20,6 +22,20 @@ class FrontendController extends Controller
 
         $teacher = Teacher::first();
         dd($teacher->parents()->get());
+
+
+        $student = Student::first();
+        dd($student->courses()->get());
+
+
+        $course = Course::first();
+        dd($course->students()->get());
+
+
+
+
+
+
 
         // return $categories;
         return view('home', compact('categories'));

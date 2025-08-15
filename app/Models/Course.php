@@ -7,20 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Student extends Model
+class Course extends Model
 {
-    /** @use HasFactory<\Database\Factories\StudentFactory> */
+    /** @use HasFactory<\Database\Factories\CourseFactory> */
     use HasFactory;
 
     protected $guarded = ['id'];
 
-    public function parent(): BelongsTo
+    public function students(): BelongsToMany
     {
-        return $this->belongsTo(Parents::class);
-    }
-
-    public function courses(): BelongsToMany
-    {
-        return $this->belongsToMany(Course::class);
+        return $this->belongsToMany(Student::class);
     }
 }
