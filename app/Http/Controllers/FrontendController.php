@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use App\Billing\PaymentGateway;
 use App\Facades\Math;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Course;
+use App\Models\Like;
 use App\Models\Post;
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Models\UserProfile;
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -20,20 +24,47 @@ class FrontendController extends Controller
             ->withCount('posts')
             ->get();
 
-        $teacher = Teacher::first();
-        dd($teacher->parents()->get());
+        // $teacher = Teacher::first();
+        // dd($teacher->parents()->get());
 
 
-        $student = Student::first();
-        dd($student->courses()->get());
+        // $student = Student::first();
+        // dd($student->courses()->get());
 
 
-        $course = Course::first();
-        dd($course->students()->get());
+        // $course = Course::first();
+        // dd($course->students()->get());
 
 
 
+        $profile = UserProfile::first();
+        // dd($profile->like);
 
+        $post = Post::first();
+        // dd($post->like);
+
+
+        $like = Like::first();
+        dd($like->likeable); //--- return parent
+
+
+        $video  = Video::first();
+        dd($video->comments);
+
+        $post = Post::first();
+        dd($post->comments);
+
+        $comment = Comment::first();
+        dd($comment->commentable); //--- return parent
+
+        $post = Post::first();
+        dd($post->tags);
+
+        $video = Video::first();
+        dd($video->tags);
+
+        $tag = Tag::first();
+        dd($tag->taggable);
 
 
 
