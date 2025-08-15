@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Str;
 
 class User extends Authenticatable
 {
@@ -41,7 +42,9 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
+            'email_verified_at' => 'datetime:d-m-Y h:i A',
+            'created_at' => 'datetime:d-m-Y h:i A',
+            'updated_at' => 'datetime:d-m-Y h:i A',
             'password' => 'hashed',
         ];
     }
