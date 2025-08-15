@@ -12,7 +12,12 @@ class UserInfoController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $users = User::all();
-        return $users;
+        $users = User::with('profile')->get();
+        $data = [];
+        foreach ($users as $user) {
+            $data[] = $user->profile;
+        }
+
+        return $data;
     }
 }
