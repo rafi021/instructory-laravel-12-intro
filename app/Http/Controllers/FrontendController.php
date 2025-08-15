@@ -19,9 +19,8 @@ class FrontendController extends Controller
             ->get();
 
         $teacher = Teacher::first();
-        $teacher->parent;
+        dd($teacher->parents()->get());
 
-        
         // return $categories;
         return view('home', compact('categories'));
     }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Parents extends Model
@@ -16,8 +17,8 @@ class Parents extends Model
     protected $guarded = ['id'];
 
 
-    public function student(): HasOne
+    public function students(): HasMany
     {
-        return $this->hasOne(Student::class);
+        return $this->hasMany(Student::class);
     }
 }

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
@@ -14,13 +16,13 @@ class Teacher extends Model
 
     protected $guarded = ['id'];
 
-    public function student(): HasOne
+    public function student(): HasMany
     {
-        return $this->hasOne(Student::class);
+        return $this->hasMany(Student::class);
     }
 
-    public function parent(): HasOneThrough
+    public function parents(): HasManyThrough
     {
-        return $this->hasOneThrough(Parents::class, Student::class);
+        return $this->hasManyThrough(Parents::class, Student::class);
     }
 }
