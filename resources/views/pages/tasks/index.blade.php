@@ -17,6 +17,8 @@
                                 <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
                                     #</th>
                                 <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
+                                    Task Image</th>
+                                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
                                     Task Name</th>
                                 <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">
                                     Date</th>
@@ -31,6 +33,10 @@
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                         {{ $loop->index + 1 }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                        <img src="{{ Storage::url($task->image) }}" alt=""
+                                            class="w-10 h-10 rounded-3xl">
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                                         @if ($task->status == 1)
                                             <span class="line-through">{{ $task->name }}</span>

@@ -25,6 +25,7 @@ class StoreTaskRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'date' => ['required', Rule::date()->format('Y-m-d')],
+            'image' => 'nullable|image|max:2048',
         ];
     }
 

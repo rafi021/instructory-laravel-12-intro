@@ -9,6 +9,6 @@ class Task extends Model
 {
     /** @use HasFactory<\Database\Factories\TaskFactory> */
     use HasFactory;
-    protected $fillable = ['name', 'date', 'status'];
+    protected $fillable = ['name', 'date', 'status', 'image'];
     // protected $guarded = ['id'];
 }
