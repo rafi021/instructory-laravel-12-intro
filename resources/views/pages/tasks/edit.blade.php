@@ -1,50 +1,63 @@
 @extends('welcome')
 @section('main-content')
-    <div class="container mx-auto space-y-12 space-x-5">
-        <h1 class="text-2xl font-bold pt-12">Task Update</h1>
-        <div class="border px-4 rounded-2xl border-gray-900/10 pb-12">
-            <form action={{ route('tasks.update', $task->id) }} method="POST">
+    <div class="container mx-auto max-w-2xl py-12 px-4">
+        <div class="bg-white shadow-xl rounded-2xl p-8">
+            <h1 class="text-3xl font-extrabold text-indigo-700 mb-8 flex items-center gap-2">
+                <svg class="w-8 h-8 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                </svg>
+                Update Task
+            </h1>
+            <form action="{{ route('tasks.update', $task->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                 @method('PUT')
                 @csrf
-                <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-6">
 
-                    <div class="sm:col-span-4">
-                        <label for="name" class="block text-sm/6 font-medium text-gray-900">Task Name</label>
-                        <div class="mt-2">
-                            <div
-                                class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600 @error('name') border border-red-500
-                                    @enderror">
-                                <input id="name" value="{{ $task->name }}" type="text" name="name"
-                                    placeholder="task name"
-                                    class="min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6 " />
-                            </div>
-                            @error('name')
-                                <span class="mt-2 text-xs text-red-500">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="sm:col-span-4">
-                        <label for="date" class="block text-sm/6 font-medium text-gray-900">Task Date</label>
-                        <div class="mt-2">
-                            <div
-                                class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600 @error('name') border border-red-500
-                                    @enderror">
-                                <input id="date" value="{{ $task->date }}" type="date" name="date"
-                                    placeholder="task date"
-                                    class="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" />
-                            </div>
-                            @error('date')
-                                <span class="mt-2 text-xs text-red-500">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-900 mb-1">Task Name</label>
+                    <input id="name" type="text" name="name" placeholder="Enter task name"
+                        class="w-full rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 py-2 px-3 text-base text-gray-900 placeholder-gray-400 @error('name') border-red-500 ring-red-100 @enderror"
+                        value="{{ old('name', $task->name) }}" />
+                    @error('name')
+                        <span class="mt-1 text-xs text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
 
-                <div class="mt-6 flex items-center justify-start gap-x-6">
+                <div>
+                    <label for="date" class="block text-sm font-medium text-gray-900 mb-1">Task Date</label>
+                    <input id="date" type="date" name="date"
+                        class="w-full rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 py-2 px-3 text-base text-gray-900 placeholder-gray-400 @error('date') border-red-500 ring-red-100 @enderror"
+                        value="{{ old('date', $task->date) }}" />
+                    @error('date')
+                        <span class="mt-1 text-xs text-red-500">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="image" class="block text-sm font-medium text-gray-900 mb-1">Task Image</label>
+                    @if($task->image)
+                        <div class="mb-2">
+                            <img src="{{ Storage::url($task->image) }}" alt="Current Image" class="w-16 h-16 object-cover rounded-full border-2 border-indigo-200 shadow">
+                        </div>
+                    @endif
+                    <input id="image" type="file" name="image"
+                        class="w-full rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 py-2 px-3 text-base text-gray-900 placeholder-gray-400 @error('image') border-red-500 ring-red-100 @enderror" />
+                    @error('image')
+                        <span class="mt-1 text-xs text-red-500">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="flex items-center justify-end gap-x-4 mt-8">
+                    <a href="{{ route('tasks.index') }}"
+                        class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg shadow transition">
+                        Cancel
+                    </a>
                     <button type="submit"
-                        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+                        class="inline-flex items-center px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow transition">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        Update Task
+                    </button>
                 </div>
             </form>
         </div>

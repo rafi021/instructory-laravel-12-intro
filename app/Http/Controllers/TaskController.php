@@ -40,30 +40,14 @@ class TaskController extends Controller
         $file_exists = $request->hasFile('image');
         if ($file_exists) {
             $file  = $request->file('image');
-            $file_type = $file->getClientMimeType();
             $file_ext = $file->getClientOriginalExtension();
-            $file_org_name = $file->getClientOriginalName();
-
-            // dd($file_type, $file_ext, $file_org_name);
-
-            // dump($file->store('image'));
-            // dump(Storage::disk('public')->put('image', $file));
-            //dump($file->storeAs('image', 'profile_image' . '.' . $file_ext));
-
-            // dump(Storage::disk('public')->putFileAs('image', $file, 'profile_image' . '.' . $file_ext));
-
-            //dump($file->move(public_path('images'), $file_org_name));
-
-
             $file_location = Storage::disk('public')->putFileAs('image', $file, 'profile_image' . '.' . $file_ext);
-
-            // dump(Storage::url($file_location));
         }
 
         Task::create([
             'name' => $request->validated('name'),
             'date' => $request->validated('date'),
-            'image' => $file_location
+            'image' => $file_location ?? null
         ]);
         Alert::success('Success', 'Task Store Successfully!!');
         return redirect()->route('tasks.index');
