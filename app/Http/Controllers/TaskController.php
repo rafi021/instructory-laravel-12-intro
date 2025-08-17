@@ -19,7 +19,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::orderBy('date', 'desc')->get();
+        $tasks = Task::with('images')->orderBy('date', 'desc')->get();
         return view('pages.tasks.index', compact('tasks'));
     }
 
@@ -36,15 +36,24 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        // dd($request->all());
-        $newFilename = Str::after($request->input('image'), 'tmp/');
-        Storage::disk('public')->move($request->input('image'), "images/$newFilename");
+        $newFiles = [];
 
-        Task::create([
+        if ($request->input('image')) {
+            foreach ($request->input('image') as $file) {
+                $newFilename = Str::after($file, 'tmp/');
+                Storage::disk('public')->move($file, "images/$newFilename");
+                $newFiles[] = ['image' => "images/$newFilename"];
+            }
+        }
+
+
+        $task = Task::create([
             'name' => $request->validated('name'),
             'date' => $request->validated('date'),
-            'image' => "images/$newFilename"
         ]);
+
+        $task->images()->createMany($newFiles);
+
         Alert::success('Success', 'Task Store Successfully!!');
         return redirect()->route('tasks.index');
     }
@@ -63,9 +72,15 @@ class TaskController extends Controller
     public function edit(string $id)
     {
         $task = Task::find($id);
-        return view('pages.tasks.edit', [
-            'task' => $task
-        ]);
+        $images = $task->images->map(function ($image) {
+            return [
+                'source' => Storage::url($image->image),
+                'options' => [
+                    'type' => 'local'
+                ]
+            ];
+        })->toArray();
+        return view('pages.tasks.edit', compact('task', 'images'));
     }
 
     /**
@@ -74,16 +89,32 @@ class TaskController extends Controller
     public function update(StoreTaskRequest $request, string $id)
     {
         $task = Task::find($id);
-        if (str()->afterLast($request->input('image'), '/') !== str()->afterLast($task->image, '/')) {
-            Storage::disk('public')->delete($task->image);
-            $newFilename = Str::after($request->input('image'), 'tmp/');
-            Storage::disk('public')->move($request->input('image'), "images/$newFilename");
-        }
+        $task->images->filter(function ($value) use ($request) {
+            return ! in_array($value->image, $request->input('image'));
+        })->each(function ($image) {
+            Storage::disk('public')->delete($image->image);
+            $image->delete();
+        });
+
         $task->update([
             'name' => $request->validated('name'),
             'date' => $request->validated('date'),
-            'image' => isset($newFilename) ? "images/$newFilename" : $task->image
         ]);
+
+        $files = [];
+
+        $newImages = array_diff($request->input('image'), $task->images->pluck('image')->toArray());
+
+        foreach ($newImages as $file) {
+            $newFilename = Str::after($file, 'tmp/');
+            Storage::disk('public')->move($file, "images/$newFilename");
+
+            $files[] = ['image' => "images/$newFilename"];
+        }
+
+        foreach ($files as $file) {
+            $task->images()->updateOrCreate(['image' => $file['image']]);
+        }
 
         Alert::success('Success', 'Task Updated Successfully!!');
         return redirect()->route('tasks.index');
@@ -117,9 +148,14 @@ class TaskController extends Controller
 
     public function upload(Request $request)
     {
+        $path = [];
+
         if ($request->file('image')) {
-            $path = $request->file('image')->store('tmp', 'public');
+            foreach ($request->file('image') as $file) {
+                $path = $file->store('tmp', 'public');
+            }
         }
+
         return $path;
     }
     public function revert(Request $request)
