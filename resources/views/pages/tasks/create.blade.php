@@ -4,7 +4,7 @@
         <div class="bg-white shadow-xl rounded-2xl p-8">
             <h1 class="text-3xl font-extrabold text-indigo-700 mb-8 flex items-center gap-2">
                 <svg class="w-8 h-8 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                 </svg>
                 Create New Task
             </h1>
@@ -34,7 +34,7 @@
                 <div>
                     <label for="image" class="block text-sm font-medium text-gray-900 mb-1">Task Image</label>
                     <input id="image" type="file" name="image"
-                        class="w-full rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 py-2 px-3 text-base text-gray-900 placeholder-gray-400 @error('image') border-red-500 ring-red-100 @enderror" />
+                        class="dropify w-full rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 py-2 px-3 text-base text-gray-900 placeholder-gray-400 @error('image') border-red-500 ring-red-100 @enderror" />
                     @error('image')
                         <span class="mt-1 text-xs text-red-500">{{ $message }}</span>
                     @enderror
@@ -48,7 +48,7 @@
                     <button type="submit"
                         class="inline-flex items-center px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow transition">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
                         Save Task
                     </button>
