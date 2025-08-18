@@ -1,4 +1,8 @@
 @extends('welcome')
+@push('styles')
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
+@endpush
 @section('main-content')
     <div class="container mx-auto max-w-2xl py-12 px-4">
         <div class="bg-white shadow-xl rounded-2xl p-8">
@@ -41,8 +45,8 @@
                                 class="w-16 h-16 object-cover rounded-full border-2 border-indigo-200 shadow">
                         </div>
                     @endif
-                    <input id="image" type="file" name="image" data-default-file="{{ Storage::url($task->image) }}"
-                        class="dropify w-full rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 py-2 px-3 text-base text-gray-900 placeholder-gray-400 @error('image') border-red-500 ring-red-100 @enderror" />
+                    <input id="image" type="file" name="image"
+                        class="w-full rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 py-2 px-3 text-base text-gray-900 placeholder-gray-400 @error('image') border-red-500 ring-red-100 @enderror" />
                     @error('image')
                         <span class="mt-1 text-xs text-red-500">{{ $message }}</span>
                     @enderror
@@ -65,3 +69,37 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+    <script>
+        FilePond.registerPlugin(FilePondPluginImagePreview);
+        FilePond.registerPlugin(FilePondPluginFileValidateType);
+        const inputElement = document.querySelector('#image');
+        const pond = FilePond.create(inputElement, {
+            acceptedFileTypes: ['image/*'],
+            server: {
+                load: (source, load, error, progress, abort, headers) => {
+                    const myRequest = new Request(source);
+                    fetch(myRequest).then((res) => {
+                        return res.blob();
+                    }).then(load);
+                },
+                process: '{{ route('upload') }}',
+                revert: '{{ route('revert') }}',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            },
+            @if ($task->image)
+                files: [{
+                    source: '{{ Storage::url($task->image) }}',
+                    options: {
+                        type: 'local',
+                    },
+                }],
+            @endif
+        });
+    </script>
+@endpush
