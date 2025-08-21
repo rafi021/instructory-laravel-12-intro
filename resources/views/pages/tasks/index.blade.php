@@ -36,15 +36,15 @@
                                 <td class="px-6 py-4 text-sm text-gray-700 font-semibold">{{ $loop->iteration }}</td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center space-x-2">
-                                        @foreach ($task->images as $image)
-                                            @if ($image->image == null)
-                                                <img src="https://placehold.co/400" alt=""
-                                                    class="w-12 h-12 object-cover rounded-full border-2 border-indigo-200 shadow">
-                                            @else
-                                                <img src="{{ Storage::url($image->image) }}" alt="Task Image"
-                                                    class="w-12 h-12 object-cover rounded-full border-2 border-indigo-200 shadow">
-                                            @endif
-                                        @endforeach
+                                        {{-- @foreach ($task->images as $image) --}}
+                                        @if ($task->image == null)
+                                            <img src="https://placehold.co/400" alt=""
+                                                class="w-12 h-12 object-cover rounded-full border-2 border-indigo-200 shadow">
+                                        @else
+                                            <img src="{{ $task->image }}" alt="Task Image"
+                                                class="w-12 h-12 object-cover rounded-full border-2 border-indigo-200 shadow">
+                                        @endif
+                                        {{-- @endforeach --}}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 text-sm">

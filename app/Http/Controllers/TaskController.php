@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Services\FileUploadService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTaskRequest;
@@ -40,20 +41,27 @@ class TaskController extends Controller
 
         $newFiles = [];
 
-        if ($request->input('image')) {
-            foreach ($request->input('image') as $file) {
-                $newFilename = Str::after($file, 'tmp/');
-                Storage::disk('public')->move($file, "images/$newFilename");
-                $newFiles[] = ['image' => "images/$newFilename"];
-            }
+        // if ($request->input('image')) {
+        //     foreach ($request->input('image') as $file) {
+        //         $newFilename = Str::after($file, 'tmp/');
+        //         Storage::disk('public')->move($file, "images/$newFilename");
+        //         $newFiles[] = ['image' => "images/$newFilename"];
+        //     }
+        // }
+
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $image = (new FileUploadService)->fileUpload($request->file('image'));
+            $newFiles = ["image" => $image];
         }
 
         $task = Task::create([
             'name' => $request->validated('name'),
             'date' => $request->validated('date'),
+            'image' => $newFiles['image'] ?? null,
         ]);
 
-        $task->images()->createMany($newFiles);
+        // $task->images()->createMany($newFiles);
 
 
         Alert::success('Success', 'Task Store Successfully!!');

@@ -39,7 +39,7 @@
 
                 <div>
                     <label for="image" class="block text-sm font-medium text-gray-900 mb-1">Task Image</label>
-                    <input id="image" type="file" name="image[]" multiple
+                    <input id="image" type="file" name="image"
                         class="w-full rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 py-2 px-3 text-base text-gray-900 placeholder-gray-400 @error('image') border-red-500 ring-red-100 @enderror" />
                     @error('image')
                         <span class="mt-1 text-xs text-red-500">{{ $message }}</span>
@@ -64,7 +64,7 @@
     </div>
 @endsection
 
-@push('scripts')
+{{-- @push('scripts')
     <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
     <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
     <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
@@ -84,4 +84,4 @@
             }
         })
     </script>
-@endpush
+@endpush --}}
