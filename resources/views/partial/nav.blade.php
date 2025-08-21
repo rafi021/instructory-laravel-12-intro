@@ -46,6 +46,19 @@
                  </div>
              </div>
 
+             <!-- Logout form (right most corner) -->
+             <div class="absolute inset-y-0 right-0 flex items-center pr-2">
+                 @auth
+                     <form method="POST" action="{{ route('logout') }}">
+                         @csrf
+                         <button type="submit"
+                             class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium transition">
+                             Logout
+                         </button>
+                     </form>
+                 @endauth
+             </div>
+
          </div>
      </div>
 
@@ -56,7 +69,15 @@
              <a href="{{ route('tasks.index') }}"
                  class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
                  aria-current="page">Tasks</a>
-
+             @auth
+                 <form method="POST" action="{{ route('logout') }}">
+                     @csrf
+                     <button type="submit"
+                         class="w-full text-left bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-md text-base font-medium transition mt-1">
+                         Logout
+                     </button>
+                 </form>
+             @endauth
          </div>
      </div>
  </nav>
