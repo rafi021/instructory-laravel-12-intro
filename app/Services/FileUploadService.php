@@ -9,8 +9,8 @@ class FileUploadService
     public function fileUpload($file): string
     {
         if ($file) {
-            Storage::disk('spaces')->put('beybsadar/', $file, 'public');
-            $uploadedFilePath = Storage::disk('spaces')->url('beybsadar/' . $file->hashName());
+            Storage::disk('s3')->put('media/main-image/', $file, 'public');
+            $uploadedFilePath = Storage::disk('s3')->url('media/main-image/' . $file->hashName());
             return $uploadedFilePath;
         }
         return '';
@@ -18,9 +18,9 @@ class FileUploadService
 
     public function fileDelete($fileUrl): bool
     {
-        $filePath = str_replace(Storage::disk('spaces')->url('/'), '', $fileUrl);
-        if (Storage::disk('spaces')->exists($filePath)) {
-            Storage::disk('spaces')->delete($filePath);
+        $filePath = str_replace(Storage::disk('s3')->url('/'), '', $fileUrl);
+        if (Storage::disk('s3')->exists($filePath)) {
+            Storage::disk('s3')->delete($filePath);
             return true;
         }
         return false;

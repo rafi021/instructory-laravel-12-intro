@@ -55,6 +55,8 @@ class TaskController extends Controller
             $newFiles = ["image" => $image];
         }
 
+        // dd($newFiles);
+
         $task = Task::create([
             'name' => $request->validated('name'),
             'date' => $request->validated('date'),
