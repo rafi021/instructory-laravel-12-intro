@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderPlacedEvent;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Requests\Order\OrderStoreRequest;
@@ -24,6 +25,10 @@ class OrderController extends Controller
             'phone' => $request->validated('phone'),
             'delivery_address' => $request->validated('delivery_address'),
         ]);
+
+
+        // 2.1 Dispatch OrderPlacedEvent
+        OrderPlacedEvent::dispatch($order);
 
         // 3. Redirect with success message
         Alert::success('Success', 'Order placed successfully!');
