@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -21,5 +23,15 @@ class LoginController extends Controller
             ]);
         }
         return response()->json(['message' => 'Invalid credentials'], 401);
+    }
+
+
+    public function adminStore(Request $request)
+    {
+        $admin = Admin::where('email', $request->email)->first();
+        if ($admin && Hash::check($request->password, $admin->password)) {
+            Auth::guard('admin')->login($admin);
+            redirect()->route('admin.dashboard');
+        }
     }
 }
