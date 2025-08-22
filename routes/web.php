@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
@@ -10,4 +11,8 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/task.php';
 
 
-Route::get('products', [ProductController::class, 'index'])->name('products.index');
+Route::get('products', [ProductController::class, 'index'])
+    ->name('products.index');
+
+Route::post('order-place', [OrderController::class, 'orderStore'])
+    ->name('order.store');
