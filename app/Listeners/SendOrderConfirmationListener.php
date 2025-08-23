@@ -3,7 +3,9 @@
 namespace App\Listeners;
 
 use App\Events\OrderPlacedEvent;
+use App\Mail\OrderConfirmationMail;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -12,6 +14,16 @@ class SendOrderConfirmationListener implements ShouldQueue
     use InteractsWithQueue;
     public function handle(OrderPlacedEvent $event): void
     {
-        Log::error('Order confirmation email sent for order ID: ' . $event->order->id);
+        $order = $event->order;
+        $mailData = [
+            'customer_name' => $order->customer_name,
+            'order_id' => $order->id,
+            'order_total' => $order->total_amount,
+            'order_date' => $order->created_at->format('Y-m-d H:i:s'),
+        ];
+        Mail::to($order->email)
+            ->send(
+                new OrderConfirmationMail($mailData)
+            );
     }
 }
