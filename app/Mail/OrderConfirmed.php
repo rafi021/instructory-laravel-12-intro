@@ -9,12 +9,17 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class OrderConfirmationMail extends Mailable implements ShouldQueue
+class OrderConfirmed extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-
-    public function __construct(public $mailData) {}
+    /**
+     * Create a new message instance.
+     */
+    public function __construct(public $mailData)
+    {
+        //
+    }
 
     /**
      * Get the message envelope.
@@ -22,7 +27,7 @@ class OrderConfirmationMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Order Confirmation Mail from - ' . env('APP_NAME'),
+            subject: 'Order Confirmed',
         );
     }
 
@@ -32,8 +37,7 @@ class OrderConfirmationMail extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            view: 'email.confirmation',
-            with: ['mailData' => $this->mailData]
+            markdown: 'mail.orders.confirmed',
         );
     }
 
