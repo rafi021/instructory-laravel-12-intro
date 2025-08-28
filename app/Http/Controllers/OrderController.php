@@ -10,6 +10,7 @@ use App\Http\Requests\Order\OrderStoreRequest;
 use App\Models\Admin;
 use App\Models\User;
 use App\Notifications\OrderPlacedNotification;
+use Illuminate\Support\Facades\Notification;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class OrderController extends Controller
@@ -35,10 +36,22 @@ class OrderController extends Controller
         OrderPlacedEvent::dispatch($order);
 
         $admin  = User::first();
+        Notification::route('database', $admin)
+            ->notify(new OrderPlacedNotification($order));
+        Notification::send($admin, new OrderPlacedNotification($order));
         $admin->notify(new OrderPlacedNotification($order));
 
         // 3. Redirect with success message
         Alert::success('Success', 'Order placed successfully!');
         return redirect()->route('products.index');
+    }
+
+
+    public function markAsRead(Request $request)
+    {
+        $user = User::first();
+        $user->unreadNotifications->markAsRead();
+        Alert::success('Success', 'All Notifications Marked As Read!');
+        return back();
     }
 }

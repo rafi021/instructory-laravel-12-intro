@@ -16,3 +16,5 @@ Route::get('products', [ProductController::class, 'index'])
 
 Route::post('order-place', [OrderController::class, 'orderStore'])
     ->name('order.store');
+
+Route::get('notifications/mark-as-read', [OrderController::class, 'markAsRead'])->name('notifications.markAllRead');
