@@ -52,7 +52,7 @@
                         <div class="py-2 px-4 border-b font-semibold text-gray-700">
                             Notifications
                         </div>
-                        <div class="max-h-72 overflow-y-auto">
+                        <div class="max-h-72 overflow-y-auto" id="notificationList">
                             @forelse(\App\Models\User::first()->unreadNotifications as $notification)
                                 <div class="px-4 py-3 border-b hover:bg-gray-50 text-gray-800 text-sm">
                                     {{ $notification->data['message'] ?? 'You have a new notification.' }}
@@ -110,5 +110,35 @@
                 });
             }
         });
+    </script>
+    <script type="module">
+       window.Echo.channel('orders')
+    .listen('.order-placed', (data) => {
+        console.log('Order status updated: ', data);
+
+        // Find the notification list
+        var notificationList = document.getElementById('notificationList');
+
+        // Remove "No new notifications." if present
+        var emptyMsg = notificationList.querySelector('.text-center.text-gray-400');
+        if (emptyMsg) emptyMsg.remove();
+
+        // Prepend the new notification
+        notificationList.insertAdjacentHTML('afterbegin',
+            `<div class="px-4 py-3 border-b hover:bg-gray-50 text-gray-800 text-sm">
+                ${data.message}
+                <div class="text-xs text-gray-400 mt-1">Just now</div>
+            </div>`
+        );
+
+        // Optionally, show the red dot badge
+        let bell = document.querySelector('#notificationBtn .fa-bell');
+        let badge = document.querySelector('#notificationBtn .absolute');
+        if (!badge) {
+            let span = document.createElement('span');
+            span.className = "absolute top-0 right-0 inline-block w-3 h-3 bg-red-500 rounded-full border-2 border-gray-800";
+            document.getElementById('notificationBtn').appendChild(span);
+        }
+    });
     </script>
 @endpush

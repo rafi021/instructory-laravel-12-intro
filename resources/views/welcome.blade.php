@@ -23,6 +23,8 @@
 <body class="">
     @include('sweetalert::alert')
     @include('partial.nav')
+    <div id="notification">
+    </div>
     @yield('main-content')
     @stack('scripts')
 </body>

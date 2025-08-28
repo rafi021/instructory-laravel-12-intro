@@ -27,12 +27,5 @@ class SendOrderConfirmationListener implements ShouldQueue
             ->send(
                 new OrderConfirmationMail($mailData)
             );
-        Mail::to($order->email)
-            ->send(
-                new OrderConfirmed($mailData)
-            );
-
-        // 2.2 Send SMS Notification
-        (new SMSService())->send($order->phone, 'Your order has been placed successfully!');
     }
 }
