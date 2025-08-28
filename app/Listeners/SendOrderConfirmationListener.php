@@ -2,9 +2,10 @@
 
 namespace App\Listeners;
 
+use App\Mail\OrderConfirmed;
+use App\Services\SMSService;
 use App\Events\OrderPlacedEvent;
 use App\Mail\OrderConfirmationMail;
-use App\Mail\OrderConfirmed;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\InteractsWithQueue;
@@ -30,5 +31,8 @@ class SendOrderConfirmationListener implements ShouldQueue
             ->send(
                 new OrderConfirmed($mailData)
             );
+
+        // 2.2 Send SMS Notification
+        (new SMSService())->send($order->phone, 'Your order has been placed successfully!');
     }
 }
