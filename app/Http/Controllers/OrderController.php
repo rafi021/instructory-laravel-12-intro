@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\OrderPlacedEvent;
 use App\Models\Order;
+use App\Services\SMSService;
 use Illuminate\Http\Request;
 use App\Http\Requests\Order\OrderStoreRequest;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -29,6 +30,9 @@ class OrderController extends Controller
 
         // 2.1 Dispatch OrderPlacedEvent
         OrderPlacedEvent::dispatch($order);
+
+        // 2.2 Send SMS Notification
+        (new SMSService())->send($order->phone, 'Your order has been placed successfully!');
 
         // 3. Redirect with success message
         Alert::success('Success', 'Order placed successfully!');
