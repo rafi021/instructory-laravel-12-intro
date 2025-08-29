@@ -35,14 +35,14 @@ class OrderController extends Controller
         // 2.1 Dispatch OrderPlacedEvent
         OrderPlacedEvent::dispatch($order);
 
-        $admin  = User::first();
-        Notification::route('database', $admin)
-            ->notify(new OrderPlacedNotification($order));
-        Notification::send($admin, new OrderPlacedNotification($order));
-        $admin->notify(new OrderPlacedNotification($order));
+        // $admin  = User::first();
+        // Notification::route('database', $admin)
+        //     ->notify(new OrderPlacedNotification($order));
+        // Notification::send($admin, new OrderPlacedNotification($order));
+        // $admin->notify(new OrderPlacedNotification($order));
 
         // 3. Redirect with success message
-        Alert::success('Success', 'Order placed successfully!');
+        // Alert::success('Success', 'Order placed successfully!');
         return redirect()->route('products.index');
     }
 
